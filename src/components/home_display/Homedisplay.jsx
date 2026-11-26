@@ -1,45 +1,35 @@
 import React, { useState } from 'react'
 
 const Homedisplay = () => {
-
-    const [displayvalue, setdisplayvalue] = useState([
-        {
-            imgurl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
-            title: '24x7',
-            description: 'Support Available'
-        },
-        {
-            imgurl: 'https://cdn-icons-png.flaticon.com/512/2838/2838794.png',
-            title: 'Available 24x7',
-            description: 'Round-the-clock support'
-        },
-        {
-            imgurl: 'https://cdn-icons-png.flaticon.com/512/2592/2592317.png',
-            title: '100% Transparent',
-            description: 'No hidden charges'
-        }, {
-            imgurl: 'https://cdn-icons-png.flaticon.com/512/9512/9512451.png',
-            title: '500+ Happy Trips',
-            description: 'Since 2010'
-        }
+    const [displayvalue] = useState([
+        { icon: 'ri-star-smile-fill', color: 'bg-amber-100 text-amber-600', title: 'Rated 5 Stars', description: 'on Google Reviews' },
+        { icon: 'ri-customer-service-2-fill', color: 'bg-blue-100 text-blue-600', title: 'Available 24x7', description: 'Round-the-clock support' },
+        { icon: 'ri-shield-check-fill', color: 'bg-emerald-100 text-emerald-600', title: '100% Transparent', description: 'No hidden charges' },
+        { icon: 'ri-suitcase-3-fill', color: 'bg-purple-100 text-purple-600', title: '500+ Happy Trips', description: 'Since 2010' },
     ])
 
     return (
-        <div className='flex px-30 justify-between border-1 border-blue-600 border-solid my-10'>
-            {displayvalue.map((val, index) => {
-                return <div key={index} className={` flex justify-center items-center gap-3 pr-5 py-10 ${index !== displayvalue.length - 1
-                    ? 'border-r border-blue-600 border-solid'
-                    : ''
-                    } `}>
+        // -mt-12: card hero ke upar halka sa overlap karta hai
+        <div className="relative z-20 mx-auto -mt-12 w-full max-w-7xl px-4 md:px-8">
+            <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white p-4 shadow-xl ring-1 ring-slate-100 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:p-2">
+                {displayvalue.map((val, index) => (
+                    <div
+                        key={index}
+                        className={`flex items-center gap-4 p-4 ${
+                            index !== displayvalue.length - 1 ? 'lg:border-r lg:border-slate-200' : ''
+                        }`}
+                    >
+                        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl ${val.color}`}>
+                            <i className={val.icon}></i>
+                        </div>
 
-                  <div className='bg-blue-300 py-2 px-3 rounded-xl border border-blue-600 border-solid'>
-              <img src={val.imgurl} alt={val.title} className='w-7 h-7' />
+                        <div>
+                            <h3 className="text-base font-semibold">{val.title}</h3>
+                            <p className="text-sm text-slate-500">{val.description}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-
-                    <div className='flex flex-col gap-1'><h2 className='text-lg capitalize font-medium'>{val.title}</h2>
-                        <p className='text-sm capitalize'>{val.description}</p></div>
-                </div>
-            })}
         </div>
     )
 }

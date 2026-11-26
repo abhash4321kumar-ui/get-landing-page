@@ -1,18 +1,35 @@
 import React from 'react'
+import { TOLL_FREE, TOLL_FREE_LINK, whatsappLink } from '../contactInfo'
 
 const Footertop = () => {
-  return (
-    <div className='bg-[#113361] flex py-15 '>
-        <div className='flex flex-col justify-center items-center w-1/2 gap-2'>
-            <h2 className='text-white text-4xl font-bold capitalize'>Ready to Explore Kashmir?</h2>
-            <p className='text-xl capitalize light-color'>Get a personalized itinerary within 30 minutes</p>
+    return (
+        <div className="bg-[#113361] px-4 py-14 md:px-8">
+            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 text-center lg:flex-row lg:text-left">
+                <div>
+                    <h2 className="text-3xl font-bold capitalize text-white sm:text-4xl">Ready to Explore Kashmir?</h2>
+                    <p className="mt-2 text-lg text-blue-200">Get a personalized itinerary within 30 minutes</p>
+                </div>
+
+                <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-5">
+                    <a
+                        href={whatsappLink('Hi, I want to plan my Kashmir trip.')}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-xl bg-white px-8 py-3 text-center text-base font-semibold text-[#0A2143] transition hover:-translate-y-0.5 hover:shadow-xl"
+                    >
+                        Plan My Trip
+                    </a>
+                    <a
+                        href={TOLL_FREE_LINK}
+                        className="rounded-xl border border-white/60 px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-[#0A2143]"
+                    >
+                        <i className="ri-phone-line pr-2"></i>
+                        {TOLL_FREE}
+                    </a>
+                </div>
+            </div>
         </div>
-        <div className='flex justify-center items-center gap-5 w-1/2'>
-            <button id='global-color-3' className='text-xl py-3 px-10 bg-white rounded-xl font-medium capitalize border-1 border-blue-800 border-solid border-white'>plan my trip</button>
-            <button className='text-xl py-3 px-10 bg-white rounded-xl font-medium capitalize styling border-white'>1800 889 0856</button>
-        </div>
-    </div>
-  )
+    )
 }
 
 export default Footertop

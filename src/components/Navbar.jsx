@@ -1,45 +1,114 @@
 import React, { useEffect, useState } from 'react'
+import Logo from './repeat-components/Logo'
+import { TOLL_FREE, TOLL_FREE_LINK, whatsappLink } from './contactInfo'
+
+const links = [
+    { name: 'home', href: '#home' },
+    { name: 'tours', href: '#tours' },
+    { name: 'destinations', href: '#destinations' },
+    { name: 'reviews', href: '#reviews' },
+    { name: 'contact', href: '#contact' },
+]
 
 const Navbar = () => {
-
     const [scrollvalue, setscrollvalue] = useState(false)
-    
+    const [menuOpen, setMenuOpen] = useState(false)
+
     useEffect(() => {
+        const handleScroll = () => {
+            setscrollvalue(window.scrollY > 25)
+        }
 
-        window.addEventListener('scroll', function(){
-            if(window.scrollY > 25){
-                setscrollvalue(true)
-            }else{
-                setscrollvalue(false)
-            }
-        })
+        handleScroll()
+        window.addEventListener('scroll', handleScroll)
 
+        // component hat jaye to listener bhi hata do
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
-    
 
+    // Navbar fixed hai, isliye ye poore page par rahega (sirf home section tak nahi)
     return (
-        <div className={`sticky relative  px-30  transition-all duration-500  z-1000 text-white top-0 ${scrollvalue ? 'bg-[#0A2143]' : ''} `}>
+        <header
+            className={`fixed top-0 left-0 z-50 w-full text-white transition-all duration-300 ${
+                scrollvalue || menuOpen ? 'bg-[#0A2143]/95 shadow-lg backdrop-blur' : 'bg-transparent'
+            }`}
+        >
+            <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8">
+                <Logo />
 
-            <div className='w-full h-25 flex'>
+                {/* Desktop links */}
+                <ul className="hidden items-center gap-8 lg:flex">
+                    {links.map((link) => (
+                        <li key={link.name}>
+                            <a
+                                href={link.href}
+                                className="relative text-base font-medium capitalize text-white/90 transition hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-400 after:transition-all hover:after:w-full"
+                            >
+                                {link.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
 
-                <div className='w-4/20 h-full flex justify-start items-center '>
-                    <img className='w-8/10 h-6/10 object-cover object-fit' src="./src/assets/image.png" alt="" />
+                {/* Desktop phone + button */}
+                <div className="hidden items-center gap-5 lg:flex">
+                    <a href={TOLL_FREE_LINK} className="flex items-center gap-2 text-base font-medium">
+                        <i className="ri-phone-line"></i>
+                        {TOLL_FREE}
+                    </a>
+                    <a
+                        href={whatsappLink('Hi, I want a Kashmir tour itinerary.')}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 px-5 py-2.5 text-sm font-semibold capitalize shadow-lg transition hover:-translate-y-0.5"
+                    >
+                        <i className="ri-calendar-line pr-2"></i>get itinerary
+                    </a>
                 </div>
 
-                <div className='flex gap-2 w-10/20 justify-center items-center cursor-pointer px-5'>
-                    <h2 className='capitalize text-lg hover:font-medium w-3/20'>home</h2>
-                    <h2 className='capitalize text-lg hover:font-medium w-3/20'>tours</h2>
-                    <h2 className='capitalize text-lg hover:font-medium w-3/20'>hotels</h2>
-                    <h2 className='capitalize text-lg hover:font-medium w-3/20'>about</h2>
-                    <h2 className='capitalize text-lg hover:font-medium w-3/20'>contact</h2>
-                </div>
-                <div className='w-6/20 flex justify-center items-center gap-3'>
-                    <h2 className='text-lg cursor-pointer'><i class="ri-phone-line pr-2"></i>1800 899 0856</h2>
-                    <button className='bg-gradient-to-br cursor-pointer from-blue-600 to-blue-800 text-white shadow-lg px-5 py-2 rounded-lg capitalize'><i class="ri-calendar-line pr-2"></i> get itinerary</button>
-                </div>
-            </div>
+                {/* Mobile menu button */}
+                <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Toggle menu"
+                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-2xl lg:hidden cursor-pointer"
+                >
+                    <i className={menuOpen ? 'ri-close-line' : 'ri-menu-line'}></i>
+                </button>
+            </nav>
 
-        </div>
+            {/* Mobile menu */}
+            {menuOpen && (
+                <div className="border-t border-white/10 px-4 pb-6 pt-2 lg:hidden">
+                    <ul className="flex flex-col">
+                        {links.map((link) => (
+                            <li key={link.name}>
+                                <a
+                                    href={link.href}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="block border-b border-white/10 py-3 text-lg capitalize"
+                                >
+                                    {link.name}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className="mt-5 flex flex-col gap-3">
+                        <a href={TOLL_FREE_LINK} className="flex items-center justify-center gap-2 rounded-xl border border-white/30 py-3">
+                            <i className="ri-phone-line"></i> {TOLL_FREE}
+                        </a>
+                        <a
+                            href={whatsappLink('Hi, I want a Kashmir tour itinerary.')}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 py-3 text-center font-semibold"
+                        >
+                            <i className="ri-calendar-line pr-2"></i>Get Itinerary
+                        </a>
+                    </div>
+                </div>
+            )}
+        </header>
     )
 }
 

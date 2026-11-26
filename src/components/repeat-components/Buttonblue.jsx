@@ -1,10 +1,22 @@
 import React from 'react'
 
-const Buttonblue = (props) => {
+// Reusable blue button.
+// href dene par link ban jata hai, nahi to normal button.
+const Buttonblue = ({ value, iconvalue, href, onClick, type = 'button', className = '' }) => {
+    const style = `inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto cursor-pointer ${className}`
+
+    if (href) {
+        return (
+            <a href={href} onClick={onClick} className={style}>
+                {value} {iconvalue && <i className={iconvalue}></i>}
+            </a>
+        )
+    }
+
     return (
-        <div className='flex justify-center items-center'>
-            <button className='bg-gradient-to-br from-blue-600 to-blue-800 text-white shadow-lg px-6 py-3 rounded-xl capitalize text-xl border-1 border-blue-600 border-solid cursor-pointer w-full'>{props.value} <i className={props.iconvalue ? props.iconvalue : ''}></i></button>
-        </div>
+        <button type={type} onClick={onClick} className={style}>
+            {value} {iconvalue && <i className={iconvalue}></i>}
+        </button>
     )
 }
 
